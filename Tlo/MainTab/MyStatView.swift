@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MyStatView: View {
   var body: some View {
-    VStack(alignment: .leading) {
+    VStack {
       Text("Мои циклы")
         .font(.title3)
         .fontWeight(.heavy)

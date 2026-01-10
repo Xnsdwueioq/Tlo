@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MarkButtonView: View {
+struct StatusButtonView: View {
   var body: some View {
     Button(action: {
       
@@ -21,5 +21,5 @@ struct MarkButtonView: View {
 
 
 #Preview {
-  MarkButtonView()
+  StatusButtonView()
 }

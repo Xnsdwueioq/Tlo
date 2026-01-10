@@ -10,7 +10,6 @@ import SwiftUI
 struct HeaderView: View {
   var body: some View {
     VStack {
-      // profile, date, calendar
       HStack {
         // profile image
         Button(action: {

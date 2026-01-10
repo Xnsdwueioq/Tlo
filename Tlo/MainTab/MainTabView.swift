@@ -13,10 +13,12 @@ struct MainTabView: View {
   var body: some View {
     ScrollView {
       ZStack {
+        // background shapes
         ShapesView()
           .frame(height: 700)
         
         VStack(spacing: 0) {
+          // scrollview offset tracker
           GeometryReader { proxy in
             let offset = proxy.frame(in: .scrollView).minY
             Color.clear
@@ -29,8 +31,8 @@ struct MainTabView: View {
           .frame(height: 0)
           
           WeekView()
-          CurrentStatusView()
-          MarkButtonView()
+          TextStatusView()
+          StatusButtonView()
           MyStatView()
           Spacer()
         }

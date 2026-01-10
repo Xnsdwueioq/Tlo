@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CurrentStatusView: View {
+struct TextStatusView: View {
   var body: some View {
     VStack(spacing: 5) {
       Text("Какать:")
@@ -19,5 +19,5 @@ struct CurrentStatusView: View {
 }
 
 #Preview {
-  CurrentStatusView()
+  TextStatusView()
 }
