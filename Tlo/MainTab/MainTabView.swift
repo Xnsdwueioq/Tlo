@@ -31,15 +31,17 @@ struct MainTabView: View {
           .frame(height: 0)
           
           WeekView()
-          TextStatusView()
-          StatusButtonView()
+          StatusView()
+            .padding(.vertical, 85)
           MyStatView()
+          
           Spacer()
         }
       }
     }
     .safeAreaInset(edge: .top) {
       HeaderView()
+        .padding(.bottom, 5)
         .background(
           .ultraThinMaterial
             .opacity(headerOpacity)
