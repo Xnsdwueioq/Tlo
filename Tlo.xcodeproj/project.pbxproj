@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B7A965812F124FEF00A6E7EE /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B7A965802F124FEF00A6E7EE /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		B7A965462F1229D700A6E7EE /* Tlo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tlo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7A965802F124FEF00A6E7EE /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +37,7 @@
 		B7A9653D2F1229D700A6E7EE = {
 			isa = PBXGroup;
 			children = (
+				B7A965802F124FEF00A6E7EE /* .gitignore */,
 				B7A965482F1229D700A6E7EE /* Tlo */,
 				B7A965472F1229D700A6E7EE /* Products */,
 			);
@@ -109,6 +115,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7A965812F124FEF00A6E7EE /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
