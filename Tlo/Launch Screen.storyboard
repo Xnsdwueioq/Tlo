@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XaY-R0-07a">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="MZX-Rh-WWZ">
+                                <rect key="frame" x="21.666666666666657" y="315.66666666666669" width="350" height="220.66666666666669"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WaterLilyLogo" translatesAutoresizingMaskIntoConstraints="NO" id="Zdw-eN-BHP">
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="115"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="350" id="9UL-W0-R3A"/>
+                                            <constraint firstAttribute="height" constant="115" id="oFe-Q1-GAg"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TloCursive" translatesAutoresizingMaskIntoConstraints="NO" id="5Ts-aC-1bt">
+                                        <rect key="frame" x="122.33333333333331" y="140" width="105" height="80.666666666666686"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="5Ts-aC-1bt" firstAttribute="height" secondItem="Zdw-eN-BHP" secondAttribute="height" multiplier="0.7" id="aOm-wp-ypZ"/>
+                                    <constraint firstItem="5Ts-aC-1bt" firstAttribute="width" secondItem="Zdw-eN-BHP" secondAttribute="width" multiplier="0.3" id="r3D-Xk-6Xa"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="gyT-iH-MjP"/>
+                        <color key="backgroundColor" name="AccentColor"/>
+                        <constraints>
+                            <constraint firstItem="MZX-Rh-WWZ" firstAttribute="centerY" secondItem="XaY-R0-07a" secondAttribute="centerY" id="BE6-qV-1zv"/>
+                            <constraint firstItem="MZX-Rh-WWZ" firstAttribute="centerX" secondItem="XaY-R0-07a" secondAttribute="centerX" id="CJT-V0-kLl"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52.671755725190835" y="374.64788732394368"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="TloCursive" width="397" height="297"/>
+        <image name="WaterLilyLogo" width="278" height="149"/>
+        <namedColor name="AccentColor">
+            <color red="0.63300001621246338" green="0.41600000858306885" blue="0.30199998617172241" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+    </resources>
+</document>
