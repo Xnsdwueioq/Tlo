@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HeaderView: View {
+  var selectedDay: Date
   var body: some View {
     VStack {
       HStack {
@@ -19,10 +20,10 @@ struct HeaderView: View {
             .scaledToFit()
             .frame(width: 30, height: 30)
         })
-        Spacer()
         
-        // current day
-        Text(Date().formatted(date: .long, time: .omitted))
+        Spacer()
+        // selected day
+        Text(selectedDay.formatted(.dateTime.day().month()))
         Spacer()
         
         // calendar
@@ -39,5 +40,5 @@ struct HeaderView: View {
 }
 
 #Preview {
-  HeaderView()
+  MainTabView()
 }

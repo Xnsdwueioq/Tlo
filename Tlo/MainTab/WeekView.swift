@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct WeekView: View {
-  let today = Date()
+  @Environment(CalendarViewModel.self) private var calendarVM
+  @Binding var currentPage: Int
+  private var depth: Int {
+    return calendarVM.depth
+  }
   
   var body: some View {
-    // days abbrev
-    VStack {
+    VStack (spacing: 5) {
+      // days of week
       HStack (spacing: 46) {
         Text("П")
         Text("В")
@@ -25,34 +29,32 @@ struct WeekView: View {
       .font(.caption2)
       .foregroundStyle(.gray)
       
-      // days of week
-      HStack(spacing: 21) {
-        Button("1") {
-          
-        }.buttonStyle(PoopDayStyle())
-        Button("2") {
-          
-        }.buttonStyle(PoopDayStyle())
-        Button("3") {
-          
-        }.buttonStyle(PoopDayStyle())
-        Button("4") {
-          
-        }.buttonStyle(PoopDayStyle())
-        Button("5") {
-          
-        }.buttonStyle(NormalDayStyle())
-        Button("6") {
-          
-        }.buttonStyle(ExpectedDayStyle())
-        Button("25") {
-          
-        }.buttonStyle(PoopDayStyle())
+      // tabview
+      TabView(selection: $currentPage) {
+        ForEach(-depth...depth, id: \.self) { offset in
+          HStack (spacing: 4) {
+            ForEach(calendarVM.getWeek(offset: offset), id: \.self) { date in
+              DayView(calendarVM: calendarVM, date: date)
+            }
+          }
+          .tag(offset)
+        }
       }
+      .tabViewStyle(.page(indexDisplayMode: .never))
+      .frame(height: 50)
+      .onChange(of: currentPage, { oldPage, newPage  in
+        let pageOffset = newPage - oldPage
+        
+        let calendar = Calendar.current
+        let selectedDay = calendarVM.selectedDay
+        guard let newSelectedDay = calendar.date(byAdding: .weekOfYear, value: pageOffset, to: selectedDay) else { return }
+        
+        calendarVM.selectedDay = newSelectedDay
+      })
     }
   }
 }
 
 #Preview {
-  MainTabView()
+  ContentView()
 }

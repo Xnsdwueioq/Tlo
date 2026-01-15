@@ -22,49 +22,55 @@ struct CapsuleButtonStyle: ButtonStyle {
   }
 }
 
-struct NormalDayStyle: ButtonStyle {
-  func makeBody(configuration: Configuration) -> some View {
-    configuration.label
-      .bold()
-      .frame(width: 33, height: 33)
-  }
-}
-
-struct ExpectedDayStyle: ButtonStyle {
-  func makeBody(configuration: Configuration) -> some View {
-    configuration.label
-      .foregroundStyle(.accent)
-      .bold()
-      .frame(width: 33, height: 33)
-      .background(
-        Circle()
-          .stroke(
-            .accent,
-            style: StrokeStyle(
-              lineWidth: 2,
-              lineCap: .round,
-              dash: [0, 4],
-              dashPhase: 6
-            )
+struct DayStyle: ButtonStyle {
+  private var hasEntry: Bool
+  private var isExpected: Bool
+  private var foregroundColor: Color = .clear
+  @ViewBuilder private var backgroundShape: some View {
+    if hasEntry {
+      Circle()
+        .fill(Color.accent)
+    } else if isExpected {
+      Circle()
+        .stroke(
+          .accent,
+          style: StrokeStyle(
+            lineWidth: 2,
+            lineCap: .round,
+            dash: [0, 4],
+            dashPhase: 6
           )
-      )
+        )
+    } else {
+      Circle()
+        .fill(.clear)
+    }
   }
-}
-
-struct PoopDayStyle: ButtonStyle {
+  
+  init(hasEntry: Bool, isExpected: Bool = false) {
+    self.hasEntry = hasEntry
+    self.isExpected = hasEntry ? false : isExpected
+    
+    self.foregroundColor =
+      if hasEntry { .white }
+      else if isExpected { .accent }
+      else { .black }
+      
+  }
+  
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .bold()
-      .foregroundStyle(.white)
-      .frame(width: 33, height: 33)
+      .frame(width: 50, height: 50)
+      .foregroundStyle(
+        foregroundColor
+      )
       .background(
-        Circle()
-          .foregroundStyle(.accent)
+        backgroundShape
+          .frame(width: 33, height: 33)
       )
   }
 }
-
 
 #Preview {
-  MainTabView()
+  ContentView()
 }

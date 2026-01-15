@@ -1,8 +1,8 @@
 //
-//  CurrentStatusView.swift
+//  TextStatusView.swift
 //  Tlo
 //
-//  Created by Eyhciurmrn Zmpodackrl on 22.12.2025.
+//  Created by Eyhciurmrn Zmpodackrl on 14.01.2026.
 //
 
 import SwiftUI
@@ -19,5 +19,7 @@ struct TextStatusView: View {
 }
 
 #Preview {
-  TextStatusView()
+  StatusView()
+    .environment(CalendarViewModel())
+    .background(.gray.opacity(0.3))
 }

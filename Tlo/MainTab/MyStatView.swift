@@ -13,7 +13,8 @@ struct MyStatView: View {
       Text("Мои циклы")
         .font(.title3)
         .fontWeight(.heavy)
-    }.frame(maxWidth: .infinity, alignment: .leading)
+    }
+    .frame(maxWidth: .infinity, alignment: .leading)
   }
 }
 

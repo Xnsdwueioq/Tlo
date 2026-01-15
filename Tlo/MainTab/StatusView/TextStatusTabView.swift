@@ -1,5 +1,5 @@
 //
-//  MarkButtonView.swift
+//  CurrentStatusView.swift
 //  Tlo
 //
 //  Created by Eyhciurmrn Zmpodackrl on 22.12.2025.
@@ -7,20 +7,17 @@
 
 import SwiftUI
 
-struct StatusButtonView: View {
+struct TextStatusTabView: View {
   @Environment(CalendarViewModel.self) var calendarVM
-  
   var body: some View {
-    Button(action: {
-      calendarVM.addEntry()
-    }, label: {
-      Text("Изменить даты каканья")
-    })
-    .buttonStyle(CapsuleButtonStyle())
+    TabView {
+      ForEach(1..<6, content: { _ in
+        TextStatusView()
+      })
+    }
+    .tabViewStyle(.page(indexDisplayMode: .never))
   }
 }
-
-
 
 #Preview {
   StatusView()

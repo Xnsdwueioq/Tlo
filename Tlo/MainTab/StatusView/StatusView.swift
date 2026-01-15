@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct StatusView: View {
+  
+  
   var body: some View {
-    VStack {
-      TextStatusView()
+    VStack (spacing: 30) {
+      TextStatusTabView()
+        .frame(height: 80)
       StatusButtonView()
     }
   }
 }
 
 #Preview {
-  ZStack {
-    Color.brown
-    StatusView()
-  }
+  StatusView()
+    .environment(CalendarViewModel())
+    .background(.gray.opacity(0.3))
 }

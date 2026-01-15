@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainTabView: View {
+  @Environment(CalendarViewModel.self) private var calendarVM
+  @State private var currentPage = 0
   @State private var headerOpacity: Double = 0
   
   var body: some View {
@@ -19,20 +21,11 @@ struct MainTabView: View {
         
         VStack(spacing: 0) {
           // scrollview offset tracker
-          GeometryReader { proxy in
-            let offset = proxy.frame(in: .scrollView).minY
-            Color.clear
-              .onChange(of: offset) { oldValue, newValue in
-                let progress = -newValue / 30 // дистанция проявления
-                headerOpacity = max(0, min(1, progress))
-              }
-            // Text("\(offset)")
-          }
-          .frame(height: 0)
-          
-          WeekView()
+          HeaderTrackerView(headerOpacity: $headerOpacity)
+            .frame(height: 0)
+          WeekView(currentPage: $currentPage)
           StatusView()
-            .padding(.vertical, 85)
+            .padding(.vertical, 70)
           MyStatView()
           
           Spacer()
@@ -40,7 +33,7 @@ struct MainTabView: View {
       }
     }
     .safeAreaInset(edge: .top) {
-      HeaderView()
+      HeaderView(selectedDay: calendarVM.selectedDay)
         .padding(.bottom, 5)
         .background(
           .ultraThinMaterial
@@ -52,5 +45,5 @@ struct MainTabView: View {
 }
 
 #Preview {
-  MainTabView()
+  ContentView()
 }

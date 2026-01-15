@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+  @State private var calendarVM = CalendarViewModel()
   var body: some View {
     MainTabView()
+      .environment(calendarVM)
   }
 }
 
