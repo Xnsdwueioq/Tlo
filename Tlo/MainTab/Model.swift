@@ -10,27 +10,32 @@ import SwiftUI
 struct CalendarLogicEngine {
   let calendar = Calendar.current
   
-  func calculateOrderNum(for date: Date, entries: [ToiletEntry]) -> Int {
+  func calculateOrderNum(for date: Date, entries: [ToiletEntry]) -> (String, Int) {
     var orderNum = 1
     
     guard !entries.isEmpty,
-          date >= entries.first!.timestamp else { return calendar.dateComponents([.day], from: date).day ?? 1 }
+          date >= entries.first?.timestamp ?? Date(timeIntervalSince1970: 0) else { return ("Прошлое", 0) }
+    
     if let dateIndex = entries.firstIndex(where: { $0.timestamp == date }) {
       var i = dateIndex
+      var isPresent = true
       while (i > 0 && isDatesAreConsecutive(for: entries[i].timestamp, and: entries[i-1].timestamp)) {
         orderNum += 1
+        isPresent = true
         i -= 1
       }
-      return orderNum
+      return (isPresent ? "Каканье:" : "Прошлое: каканье", orderNum)
     }
     
     var index = entries.count - 1
+    var isPresent = true
     while (index > 0 && (entries[index].timestamp > date)) {
       index -= 1
+      isPresent = false
     }
     orderNum = getDiffInDaysBetweenDates(for: entries[index].timestamp, and: date)
     
-    return orderNum
+    return (isPresent ? (orderNum < 7 ? "Без каканья:" : "Без каканья (жестко):") : "Прошлое: без каканья", orderNum)
   }
   
   func isDatesAreConsecutive(for date1: Date, and date2: Date) -> Bool {
@@ -58,8 +63,13 @@ final class ToiletEntry {
 final class CalendarViewModel {
   let depth = 15
   var logicEngine = CalendarLogicEngine()
-  var selectedDay: Date = Date().startOfDay
   var initDay: Date = Date().startOfDay
+  var selectedDay: Date = Date().startOfDay {
+    didSet {
+      updateStatus()
+    }
+  }
+  var currentStatus: (String, Int) = ("", 0)
   
   var mockEntries: [ToiletEntry] = []
   
@@ -71,6 +81,10 @@ final class CalendarViewModel {
     let day4 = ToiletEntry(for: initDay)    // текущий день
     
     self.mockEntries = [day1, day2, day3, day4]
+  }
+  
+  func updateStatus() {
+    self.currentStatus = getSelectedDayStatus() // вычисляется только при обновлении дня
   }
   
   func daysAgo(_ days: Int) -> Date {
@@ -100,7 +114,7 @@ final class CalendarViewModel {
     mockEntries.contains(where: { $0.timestamp == date.startOfDay })
   }
   
-  func getSelectedDayStatus() -> Int {
+  func getSelectedDayStatus() -> (String, Int) {
     return logicEngine.calculateOrderNum(for: selectedDay, entries: mockEntries)
   }
 }
