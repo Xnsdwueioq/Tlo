@@ -7,9 +7,39 @@
 import SwiftData
 import SwiftUI
 
-enum EntryType {
-  case poop
-  case expected
+struct CalendarLogicEngine {
+  let calendar = Calendar.current
+  
+  func calculateOrderNum(for date: Date, entries: [ToiletEntry]) -> Int {
+    var orderNum = 1
+    
+    guard !entries.isEmpty,
+          date >= entries.first!.timestamp else { return calendar.dateComponents([.day], from: date).day ?? 1 }
+    if let dateIndex = entries.firstIndex(where: { $0.timestamp == date }) {
+      var i = dateIndex
+      while (i > 0 && isDatesAreConsecutive(for: entries[i].timestamp, and: entries[i-1].timestamp)) {
+        orderNum += 1
+        i -= 1
+      }
+      return orderNum
+    }
+    
+    var index = entries.count - 1
+    while (index > 0 && (entries[index].timestamp > date)) {
+      index -= 1
+    }
+    orderNum = getDiffInDaysBetweenDates(for: entries[index].timestamp, and: date)
+    
+    return orderNum
+  }
+  
+  func isDatesAreConsecutive(for date1: Date, and date2: Date) -> Bool {
+    return getDiffInDaysBetweenDates(for: date1, and: date2) == 1
+  }
+  
+  func getDiffInDaysBetweenDates(for date1: Date, and date2: Date) -> Int {
+    return abs(Calendar.current.dateComponents([.day], from: date1, to: date2).day ?? 0)
+  }
 }
 
 // model
@@ -27,6 +57,7 @@ final class ToiletEntry {
 @Observable
 final class CalendarViewModel {
   let depth = 15
+  var logicEngine = CalendarLogicEngine()
   var selectedDay: Date = Date().startOfDay
   var initDay: Date = Date().startOfDay
   
@@ -67,6 +98,10 @@ final class CalendarViewModel {
   func hasEntry(on date: Date) -> Bool {
     // TEST
     mockEntries.contains(where: { $0.timestamp == date.startOfDay })
+  }
+  
+  func getSelectedDayStatus() -> Int {
+    return logicEngine.calculateOrderNum(for: selectedDay, entries: mockEntries)
   }
 }
 
