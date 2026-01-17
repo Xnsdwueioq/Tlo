@@ -8,18 +8,15 @@
 import SwiftUI
 
 struct TextStatusView: View {
+  @Environment(CalendarViewModel.self) var calendarVM
+  var status: (String, Int) = ("", 0)
+  
   var body: some View {
     VStack(spacing: 5) {
-      Text("Какать:")
+      Text(status.0)
         .bold()
-      Text("N-й день")
+      Text(status.1 != 0 ? "\(status.1)" : "∞")
         .font(.system(size: 48, weight: .bold))
     }
   }
-}
-
-#Preview {
-  StatusView()
-    .environment(CalendarViewModel())
-    .background(.gray.opacity(0.3))
 }

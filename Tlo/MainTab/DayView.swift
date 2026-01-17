@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct DayView: View {
-  var calendarVM: CalendarViewModel
+  @Environment(CalendarViewModel.self) var calendarVM
   var date: Date = Date()
   var isSelected: Bool {
     return date.startOfDay == calendarVM.selectedDay.startOfDay
@@ -18,7 +18,9 @@ struct DayView: View {
   
   var body: some View {
     Button("\(date.formatted(.dateTime.day()))") {
-      calendarVM.selectedDay = date.startOfDay
+      withAnimation {
+        calendarVM.selectedDay = date.startOfDay
+      }
     }
     .buttonStyle(DayStyle(hasEntry: hasEntry))
     .background(
@@ -29,8 +31,4 @@ struct DayView: View {
     )
     .animation(.easeInOut, value: isSelected)
   }
-}
-
-#Preview {
-  ContentView()
 }

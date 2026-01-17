@@ -38,7 +38,3 @@ struct HeaderView: View {
     .padding(.horizontal, 20)
   }
 }
-
-#Preview {
-  MainTabView()
-}

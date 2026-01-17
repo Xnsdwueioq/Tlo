@@ -70,7 +70,3 @@ struct DayStyle: ButtonStyle {
       )
   }
 }
-
-#Preview {
-  ContentView()
-}

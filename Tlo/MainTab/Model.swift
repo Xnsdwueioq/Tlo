@@ -24,7 +24,7 @@ struct CalendarLogicEngine {
         isPresent = true
         i -= 1
       }
-      return (isPresent ? "Каканье:" : "Прошлое: каканье", orderNum)
+      return (isPresent ? "Каканье:" : "Каканье:", orderNum)
     }
     
     var index = entries.count - 1
@@ -35,7 +35,7 @@ struct CalendarLogicEngine {
     }
     orderNum = getDiffInDaysBetweenDates(for: entries[index].timestamp, and: date)
     
-    return (isPresent ? (orderNum < 7 ? "Без каканья:" : "Без каканья (жестко):") : "Прошлое: без каканья", orderNum)
+    return (isPresent ? (orderNum < 7 ? "Без каканья:" : "Без каканья (жестко):") : "Без каканья:", orderNum)
   }
   
   func isDatesAreConsecutive(for date1: Date, and date2: Date) -> Bool {
@@ -61,16 +61,45 @@ final class ToiletEntry {
 // modelview
 @Observable
 final class CalendarViewModel {
-  let depth = 15
+  let depth = 1
   var logicEngine = CalendarLogicEngine()
-  var initDay: Date = Date().startOfDay
-  var selectedDay: Date = Date().startOfDay {
-    didSet {
-      updateStatus()
-    }
-  }
-  var currentStatus: (String, Int) = ("", 0)
   
+  var initDay: Date = Date().startOfDay
+  var startOfInitWeek: Date {
+    return Calendar.current.dateInterval(of: .weekOfYear, for: initDay)!.start
+  }
+  
+  var selectedDay: Date = Date().startOfDay
+  var dayIndex: Int {
+    Calendar.current.dateComponents([.day], from: initDay, to: selectedDay).day ?? 0
+  }
+  var weekIndex: Int {
+    let calendar = Calendar.current
+    let startOfSelectedDay = calendar.dateInterval(of: .weekOfYear, for: selectedDay)!.start
+    
+    return (calendar.dateComponents([.weekOfYear], from: startOfInitWeek, to: startOfSelectedDay).weekOfYear ?? 0)
+  }
+  
+  func updateDayIndex(new index: Int) {
+    selectedDay = Calendar.current.date(byAdding: .day, value: index, to: initDay) ?? initDay
+  }
+  func updateWeekIndex(new index: Int) {
+    let calendar = Calendar.current
+    let weekDayUniversal = getWeekDayUniversal(from: selectedDay) - 1
+    let startOfTargetWeek = calendar.date(byAdding: .weekOfYear, value: index, to: startOfInitWeek) ?? initDay
+    selectedDay = calendar.date(byAdding: .day, value: weekDayUniversal, to: startOfTargetWeek) ?? initDay
+  }
+  
+  // in (1;7)
+  func getWeekDayUniversal(from date: Date) -> Int {
+    let calendar = Calendar.current
+    let firstDay = calendar.firstWeekday
+    let weekDayAmerican = abs(calendar.component(.weekday, from: date))
+    let weekDayUniversal = (weekDayAmerican - firstDay + 7) % 7 + 1
+    return weekDayUniversal
+  }
+  
+  // TEST
   var mockEntries: [ToiletEntry] = []
   
   init() {
@@ -81,14 +110,6 @@ final class CalendarViewModel {
     let day4 = ToiletEntry(for: initDay)    // текущий день
     
     self.mockEntries = [day1, day2, day3, day4]
-  }
-  
-  func updateStatus() {
-    self.currentStatus = getSelectedDayStatus() // вычисляется только при обновлении дня
-  }
-  
-  func daysAgo(_ days: Int) -> Date {
-    return Calendar.current.date(byAdding: .day, value: -days, to: initDay) ?? Date()
   }
   
   func getWeek(offset: Int = 0) -> [Date] {
@@ -104,6 +125,13 @@ final class CalendarViewModel {
     }
   }
   
+  func getDay(offset: Int = 0) -> (String, Int) {
+    let calendar = Calendar.current
+    
+    guard let targetDay = calendar.date(byAdding: .day, value: offset, to: initDay) else { return ("", 0)}
+    return logicEngine.calculateOrderNum(for: targetDay, entries: mockEntries)
+  }
+  
   func addEntry() {
     // TEST
     hasEntry(on: selectedDay) ? nil : mockEntries.append(ToiletEntry(for: selectedDay))
@@ -114,8 +142,9 @@ final class CalendarViewModel {
     mockEntries.contains(where: { $0.timestamp == date.startOfDay })
   }
   
-  func getSelectedDayStatus() -> (String, Int) {
-    return logicEngine.calculateOrderNum(for: selectedDay, entries: mockEntries)
+  func daysAgo(_ days: Int) -> Date {
+    // TEST
+    return Calendar.current.date(byAdding: .day, value: -days, to: initDay) ?? Date()
   }
 }
 
