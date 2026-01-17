@@ -31,7 +31,7 @@ struct CalendarLogicEngine {
     
     if let lastEntry = entries.last(where: { $0.timestamp < targetDate }) {
       let diff = getDiffInDaysBetweenDates(for: lastEntry.timestamp, and: targetDate)
-      return (diff < 7 ? "Не какать:" : "Не какать (жестко):", diff)
+      return (diff < 7 ? "Не какать:" : "Не какать (WARNING):", diff)
     }
   
     return ("Не какать:", 0)
