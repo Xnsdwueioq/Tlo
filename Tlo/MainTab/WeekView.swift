@@ -9,7 +9,6 @@ import SwiftUI
 
 struct WeekView: View {
   @Environment(CalendarViewModel.self) private var calendarVM
-  @Binding var currentPage: Int
   private var depth: Int {
     return calendarVM.depth
   }
@@ -30,11 +29,17 @@ struct WeekView: View {
       .foregroundStyle(.gray)
       
       // tabview
-      TabView(selection: $currentPage) {
+      TabView(selection: Binding(get: {
+        calendarVM.weekIndex
+      }, set: { index in
+        withAnimation {
+          calendarVM.updateWeekIndex(new: index)
+        }
+      })) {
         ForEach(-depth...depth, id: \.self) { offset in
           HStack (spacing: 4) {
             ForEach(calendarVM.getWeek(offset: offset), id: \.self) { date in
-              DayView(calendarVM: calendarVM, date: date)
+              DayView(date: date)
             }
           }
           .tag(offset)
@@ -42,15 +47,6 @@ struct WeekView: View {
       }
       .tabViewStyle(.page(indexDisplayMode: .never))
       .frame(height: 50)
-      .onChange(of: currentPage, { oldPage, newPage  in
-        let pageOffset = newPage - oldPage
-        
-        let calendar = Calendar.current
-        let selectedDay = calendarVM.selectedDay
-        guard let newSelectedDay = calendar.date(byAdding: .weekOfYear, value: pageOffset, to: selectedDay) else { return }
-        
-        calendarVM.selectedDay = newSelectedDay
-      })
     }
   }
 }

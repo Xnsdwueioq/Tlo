@@ -19,11 +19,3 @@ struct StatusButtonView: View {
     .buttonStyle(CapsuleButtonStyle())
   }
 }
-
-
-
-#Preview {
-  StatusView()
-    .environment(CalendarViewModel())
-    .background(.gray.opacity(0.3))
-}

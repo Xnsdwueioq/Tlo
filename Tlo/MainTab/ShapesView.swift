@@ -44,5 +44,5 @@ struct ShapesView: View {
 }
 
 #Preview {
-  ShapesView()
+  ContentView()
 }

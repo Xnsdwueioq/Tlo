@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct StatusView: View {
-  
+  @Environment(CalendarViewModel.self) var calendarVM
   
   var body: some View {
     VStack (spacing: 30) {
-      TextStatusTabView()
+      TextStatusTabView(currentDay: Binding(get: {
+        calendarVM.dayIndex
+      }, set: { index in
+        withAnimation {
+          calendarVM.updateDayIndex(new: index)
+        }
+      }))
         .frame(height: 80)
       StatusButtonView()
     }
   }
-}
-
-#Preview {
-  StatusView()
-    .environment(CalendarViewModel())
-    .background(.gray.opacity(0.3))
 }

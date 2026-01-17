@@ -9,8 +9,8 @@ import SwiftUI
 
 struct MainTabView: View {
   @Environment(CalendarViewModel.self) private var calendarVM
-  @State private var currentPage = 0
   @State private var headerOpacity: Double = 0
+  private let daysInWeek = 7
   
   var body: some View {
     ScrollView {
@@ -18,16 +18,14 @@ struct MainTabView: View {
         // background shapes
         ShapesView()
           .frame(height: 700)
-        
+  
         VStack(spacing: 0) {
           // scrollview offset tracker
           HeaderTrackerView(headerOpacity: $headerOpacity)
             .frame(height: 0)
-          WeekView(currentPage: $currentPage)
+          WeekView()
           StatusView()
             .padding(.vertical, 70)
-          MyStatView()
-          
           Spacer()
         }
       }
