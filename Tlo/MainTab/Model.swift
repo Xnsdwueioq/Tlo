@@ -4,6 +4,7 @@
 //
 //  Created by Eyhciurmrn Zmpodackrl on 13.01.2026.
 //
+
 import SwiftData
 import SwiftUI
 
@@ -11,35 +12,29 @@ struct CalendarLogicEngine {
   let calendar = Calendar.current
   
   func calculateOrderNum(for date: Date, entries: [ToiletEntry]) -> (String, Int) {
-    var orderNum = 1
+    let calendar = Calendar.current
+    let targetDate = date.startOfDay
+    let setOfDates = Set(entries.map { $0.timestamp })
     
-    guard !entries.isEmpty,
-          date >= entries.first?.timestamp ?? Date(timeIntervalSince1970: 0) else { return ("Прошлое", 0) }
-    
-    if let dateIndex = entries.firstIndex(where: { $0.timestamp == date }) {
-      var i = dateIndex
-      var isPresent = true
-      while (i > 0 && isDatesAreConsecutive(for: entries[i].timestamp, and: entries[i-1].timestamp)) {
-        orderNum += 1
-        isPresent = true
-        i -= 1
+    if setOfDates.contains(targetDate) {
+      var streak = 1
+      var current = targetDate
+      
+      while let prevDate = calendar.date(byAdding: .day, value: -1, to: current),
+            setOfDates.contains(prevDate) {
+        streak += 1
+        current = prevDate
       }
-      return (isPresent ? "Каканье:" : "Каканье:", orderNum)
+      
+      return ("Какать:", streak)
     }
     
-    var index = entries.count - 1
-    var isPresent = true
-    while (index > 0 && (entries[index].timestamp > date)) {
-      index -= 1
-      isPresent = false
+    if let lastEntry = entries.last(where: { $0.timestamp < targetDate }) {
+      let diff = getDiffInDaysBetweenDates(for: lastEntry.timestamp, and: targetDate)
+      return (diff < 7 ? "Не какать:" : "Не какать (жестко):", diff)
     }
-    orderNum = getDiffInDaysBetweenDates(for: entries[index].timestamp, and: date)
-    
-    return (isPresent ? (orderNum < 7 ? "Без каканья:" : "Без каканья (жестко):") : "Без каканья:", orderNum)
-  }
   
-  func isDatesAreConsecutive(for date1: Date, and date2: Date) -> Bool {
-    return getDiffInDaysBetweenDates(for: date1, and: date2) == 1
+    return ("Не какать:", 0)
   }
   
   func getDiffInDaysBetweenDates(for date1: Date, and date2: Date) -> Int {
@@ -61,7 +56,7 @@ final class ToiletEntry {
 // modelview
 @Observable
 final class CalendarViewModel {
-  let depth = 1
+  let depth = 5
   var logicEngine = CalendarLogicEngine()
   
   var initDay: Date = Date().startOfDay
@@ -134,7 +129,10 @@ final class CalendarViewModel {
   
   func addEntry() {
     // TEST
-    hasEntry(on: selectedDay) ? nil : mockEntries.append(ToiletEntry(for: selectedDay))
+    if !hasEntry(on: selectedDay) {
+      mockEntries.append(ToiletEntry(for: selectedDay))
+      mockEntries.sort { $0.timestamp < $1.timestamp }
+    }
   }
   
   func hasEntry(on date: Date) -> Bool {
