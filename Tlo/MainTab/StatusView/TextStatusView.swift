@@ -15,8 +15,13 @@ struct TextStatusView: View {
     VStack(spacing: 5) {
       Text(status.0)
         .bold()
-      Text(status.1 != 0 ? "\(status.1)" : "∞")
+      Text(status.1 != 0 ? "\(status.1)-й день" : "∞")
         .font(.system(size: 48, weight: .bold))
     }
   }
+}
+
+#Preview {
+  TextStatusView(status: ("Какать:", 10))
+    .environment(CalendarViewModel())
 }
