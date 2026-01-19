@@ -74,6 +74,9 @@ final class CalendarViewModel {
     
     return (calendar.dateComponents([.weekOfYear], from: startOfInitWeek, to: startOfSelectedDay).weekOfYear ?? 0)
   }
+  var isPoopDay: Bool {
+    return hasEntry(on: selectedDay)
+  }
   
   func updateDayIndex(new index: Int) {
     selectedDay = Calendar.current.date(byAdding: .day, value: index, to: initDay) ?? initDay

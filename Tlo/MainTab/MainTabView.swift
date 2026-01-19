@@ -38,7 +38,7 @@ struct MainTabView: View {
             .opacity(headerOpacity)
         )
     }
-    .background(.mainBackground)
+    .background(calendarVM.isPoopDay ? .mainPoopBackground : .mainNopoopBackground)
   }
 }
 
