@@ -23,7 +23,7 @@ struct HeaderView: View {
         
         Spacer()
         // selected day
-        Text(selectedDay.formatted(.dateTime.day().month(.wide).locale(.current)))
+        Text(selectedDay.smartFormatted)
           .animation(.none)
         Spacer()
         
@@ -43,4 +43,18 @@ struct HeaderView: View {
 #Preview {
   HeaderView(selectedDay: Date())
     .environment(\.locale, Locale(identifier: "ru_RU"))
+}
+
+extension Date {
+  var smartFormatted: String {
+    let calendar = Calendar.current
+    let currentYear = calendar.component(.year, from: Date())
+    let dateYear = calendar.component(.year, from: self)
+    
+    if currentYear == dateYear {
+      return self.formatted(.dateTime.day().month(.wide).locale(.current))
+    } else {
+      return self.formatted(.dateTime.day().month(.abbreviated).year().locale(.current))
+    }
+  }
 }
