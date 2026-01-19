@@ -24,6 +24,7 @@ struct HeaderView: View {
         Spacer()
         // selected day
         Text(selectedDay.formatted(.dateTime.day().month(.wide).locale(.current)))
+          .animation(.none)
         Spacer()
         
         // calendar
