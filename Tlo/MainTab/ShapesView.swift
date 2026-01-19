@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ShapesView: View {
+  var isFreeDay: Bool = false
+  
   var body: some View {
     Color.clear
       .overlay(content: {
@@ -37,12 +39,20 @@ struct ShapesView: View {
             )
             .offset(x: 120, y: -330)
             .blur(radius: 2)
-            
+            .phaseAnimator([false, true, true, false]) { content, isExpanded in
+              content.offset(x: isExpanded ? -20 : 0, y: isExpanded ? 40 : 0)
+            } animation: { isExpanded in
+              switch isExpanded {
+              case true: .easeInOut(duration: 7)
+              case false: .easeInOut(duration: 5)
+              }
+            }
+          
         }
       })
   }
 }
 
 #Preview {
-  ContentView()
+  ShapesView()
 }
