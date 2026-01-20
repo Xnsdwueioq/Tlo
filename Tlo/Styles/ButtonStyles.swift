@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct CapsuleButtonStyle: ButtonStyle {
+  var isPoopDay: Bool
+  
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
       .font(.footnote)
       .fontWeight(.heavy)
       .padding(8)
       .padding(.horizontal, 10)
-      .background(Color.white)
+      .background(isPoopDay ? Color.white : .accent)
       .clipShape(Capsule())
-      .foregroundStyle(configuration.isPressed ? .accent.opacity(0.2) : .accent)
+      .foregroundStyle(configuration.isPressed ? (isPoopDay ? Color.accent : .white).opacity(0.2) : (isPoopDay ? Color.accent : .white).opacity(1))
       .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
-      .animation(.easeOut(duration: 0.4), value: configuration.isPressed)
+      .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
   }
 }
 
