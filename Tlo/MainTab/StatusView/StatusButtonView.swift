@@ -16,6 +16,6 @@ struct StatusButtonView: View {
     }, label: {
       Text("Изменить даты каканья")
     })
-    .buttonStyle(CapsuleButtonStyle())
+    .buttonStyle(CapsuleButtonStyle(isPoopDay: calendarVM.isPoopDay))
   }
 }

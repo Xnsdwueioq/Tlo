@@ -26,9 +26,9 @@ struct DayView: View {
     .background(
       isSelected
       ? Circle()
-        .foregroundStyle(Color.white)
+        .foregroundStyle(calendarVM.isPoopDay ? Color.white : Color.nopoopSelectedDay)
       : nil
     )
-    .animation(.easeInOut, value: isSelected)
+    .animation(.easeInOut(duration: 0.5), value: isSelected)
   }
 }
