@@ -22,13 +22,8 @@ struct DayView: View {
         calendarVM.selectedDay = date.startOfDay
       }
     }
+    .fontWeight(isSelected && hasEntry ? .bold : .regular)
     .buttonStyle(DayStyle(hasEntry: hasEntry))
-    .background(
-      isSelected
-      ? Circle()
-        .foregroundStyle(calendarVM.isPoopDay ? Color.white : Color.nopoopSelectedDay)
-      : nil
-    )
-    .animation(.easeInOut(duration: 0.5), value: isSelected)
+    .animation(.easeInOut, value: hasEntry)
   }
 }

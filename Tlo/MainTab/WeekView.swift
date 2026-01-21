@@ -20,6 +20,9 @@ struct WeekView: View {
     let selectedWeek = calendarVM.startOfSelectedDayWeek
     return initWeek == selectedWeek
   }
+  private var orderOfSelectedDayInWeek: Int {
+    calendarVM.getWeekDayUniversal(from: calendarVM.selectedDay)
+  }
   let days = ["П", "В", "С", "Ч","П","С","В"]
   
   var body: some View {
@@ -38,23 +41,25 @@ struct WeekView: View {
       .font(.caption2)
       
       // tabview
-      TabView(selection: Binding(get: {
-        calendarVM.weekIndex
-      }, set: { index in
-        withAnimation {
-          calendarVM.updateWeekIndex(new: index)
-        }
-      })) {
-        ForEach(-depth...depth, id: \.self) { offset in
-          HStack (spacing: 4) {
-            ForEach(calendarVM.getWeek(offset: offset), id: \.self) { date in
-              DayView(date: date)
+      ZStack {
+        SelectDaysView(selectedDayOrder: orderOfSelectedDayInWeek)
+        TabView(selection: Binding(get: {
+          calendarVM.weekIndex
+        }, set: { index in
+          withAnimation {
+            calendarVM.updateWeekIndex(new: index)
+          }
+        })) {
+          ForEach(-depth...depth, id: \.self) { offset in
+            HStack (spacing: 4) {
+              ForEach(calendarVM.getWeek(offset: offset), id: \.self) { date in
+                DayView(date: date)
+              }
             }
           }
-          .tag(offset)
         }
+        .tabViewStyle(.page(indexDisplayMode: .never))
       }
-      .tabViewStyle(.page(indexDisplayMode: .never))
       .frame(height: 50)
     }
   }
@@ -62,8 +67,9 @@ struct WeekView: View {
 
 #Preview {
   @Previewable @State var calendarVM = CalendarViewModel()
-  MainTabView()
+  WeekView()
     .environment(calendarVM)
+    .background(Color.yellow)
 //    .onAppear(perform: {
 //      calendarVM.initDay = calendarVM.initDay.advanced(by: 3600*24*(2))
 //    })
