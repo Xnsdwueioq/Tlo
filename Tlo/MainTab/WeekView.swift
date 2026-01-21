@@ -12,21 +12,30 @@ struct WeekView: View {
   private var depth: Int {
     return calendarVM.depth
   }
+  private var initWeekDayIndex: Int {
+    calendarVM.getWeekDayUniversal(from: calendarVM.initDay)
+  }
+  private var isSelectedDayOnInitWeek: Bool {
+    let initWeek = calendarVM.startOfInitWeek
+    let selectedWeek = calendarVM.startOfSelectedDayWeek
+    return initWeek == selectedWeek
+  }
+  let days = ["П", "В", "С", "Ч","П","С","В"]
   
   var body: some View {
     VStack (spacing: 5) {
       // days of week
-      HStack (spacing: 46) {
-        Text("П")
-        Text("В")
-        Text("С")
-        Text("Ч")
-        Text("П")
-        Text("С")
-        Text("В")
+      HStack (spacing: -1) {
+        ForEach(0..<7, id:\.self) { dayIndex in
+          let isToday: Bool = (dayIndex+1) == initWeekDayIndex && isSelectedDayOnInitWeek
+          Text(isToday ? "СЕГОДНЯ" : days[dayIndex])
+            .foregroundStyle(isToday ? .black : .gray)
+            .frame(width: 55)
+            .bold()
+            .animation(.none, value: isToday)
+        }
       }
       .font(.caption2)
-      .foregroundStyle(.gray)
       
       // tabview
       TabView(selection: Binding(get: {
@@ -52,5 +61,10 @@ struct WeekView: View {
 }
 
 #Preview {
-  ContentView()
+  @Previewable @State var calendarVM = CalendarViewModel()
+  MainTabView()
+    .environment(calendarVM)
+//    .onAppear(perform: {
+//      calendarVM.initDay = calendarVM.initDay.advanced(by: 3600*24*(2))
+//    })
 }

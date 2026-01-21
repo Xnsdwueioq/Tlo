@@ -65,6 +65,9 @@ final class CalendarViewModel {
   }
   
   var selectedDay: Date = Date().startOfDay
+  var startOfSelectedDayWeek: Date {
+    return Calendar.current.dateInterval(of: .weekOfYear, for: selectedDay)!.start
+  }
   var dayIndex: Int {
     Calendar.current.dateComponents([.day], from: initDay, to: selectedDay).day ?? 0
   }
