@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CapsuleButtonStyle: ButtonStyle {
-  var isPoopDay: Bool
+  var isPoopDay: Bool = false
   
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
