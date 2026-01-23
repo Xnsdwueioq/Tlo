@@ -8,6 +8,7 @@
 import SwiftData
 import SwiftUI
 
+// Logic Engine
 struct CalendarLogicEngine {
   let calendar = Calendar.current
   
@@ -33,7 +34,7 @@ struct CalendarLogicEngine {
       let diff = getDiffInDaysBetweenDates(for: lastEntry.timestamp, and: targetDate)
       return (diff < 7 ? "Не какать:" : "Не какать (WARNING):", diff)
     }
-  
+    
     return ("Не какать:", 0)
   }
   
@@ -42,7 +43,7 @@ struct CalendarLogicEngine {
   }
 }
 
-// model
+// Model
 final class ToiletEntry {
   var id: UUID
   var timestamp: Date
@@ -53,21 +54,60 @@ final class ToiletEntry {
   }
 }
 
-// modelview
+// ModelView
 @Observable
 final class CalendarViewModel {
-  let depth = 5
+  // TEST (mock данные)
+  init() {
+    let day1 = ToiletEntry(for: daysAgo(5)) // 2 дня подряд (начало)
+    let day2 = ToiletEntry(for: daysAgo(4)) // 2 дня подряд (конец)
+    let day3 = ToiletEntry(for: daysAgo(2)) // 1 день
+    let day4 = ToiletEntry(for: initDay)    // текущий день
+    
+    self.mockEntries = [day1, day2, day3, day4]
+  }
+  var mockEntries: [ToiletEntry] = []
+  
+  let depth = 15
+  var daysDepth: ClosedRange<Int> {
+    let daysInWeek = 7
+    let weekDay = getWeekDayUniversal(from: initDay)
+    
+    let daysAfter = daysInWeek - weekDay
+    let daysBefore = daysInWeek - daysAfter - 1
+    
+    return (-daysInWeek*depth - daysBefore)...(depth*daysInWeek + daysAfter)
+  }
   var logicEngine = CalendarLogicEngine()
   
+  // init day
   var initDay: Date = Date().startOfDay
   var startOfInitWeek: Date {
     return Calendar.current.dateInterval(of: .weekOfYear, for: initDay)!.start
   }
+  var initWeekDayIndex: Int {
+    getWeekDayUniversal(from: initDay)
+  }
   
+  // selected day
   var selectedDay: Date = Date().startOfDay
   var startOfSelectedDayWeek: Date {
     return Calendar.current.dateInterval(of: .weekOfYear, for: selectedDay)!.start
   }
+  var selectedWeekDayIndex: Int {
+    getWeekDayUniversal(from: selectedDay)
+  }
+  var selectedDayIsPoop: Bool {
+    return hasEntry(on: selectedDay)
+  }
+  var isSelectedDayOnInitWeek: Bool {
+    let initWeek = startOfInitWeek
+    let selectedWeek = startOfSelectedDayWeek
+    
+    return initWeek == selectedWeek
+  }
+  
+  // Tab indexes
   var dayIndex: Int {
     Calendar.current.dateComponents([.day], from: initDay, to: selectedDay).day ?? 0
   }
@@ -76,9 +116,6 @@ final class CalendarViewModel {
     let startOfSelectedDay = calendar.dateInterval(of: .weekOfYear, for: selectedDay)!.start
     
     return (calendar.dateComponents([.weekOfYear], from: startOfInitWeek, to: startOfSelectedDay).weekOfYear ?? 0)
-  }
-  var isPoopDay: Bool {
-    return hasEntry(on: selectedDay)
   }
   
   func updateDayIndex(new index: Int) {
@@ -91,7 +128,7 @@ final class CalendarViewModel {
     selectedDay = calendar.date(byAdding: .day, value: weekDayUniversal, to: startOfTargetWeek) ?? initDay
   }
   
-  // in (1;7)
+  // Возвращает число в диапазоне (1;7)
   func getWeekDayUniversal(from date: Date) -> Int {
     let calendar = Calendar.current
     let firstDay = calendar.firstWeekday
@@ -100,19 +137,7 @@ final class CalendarViewModel {
     return weekDayUniversal
   }
   
-  // TEST
-  var mockEntries: [ToiletEntry] = []
-  
-  init() {
-    // TEST
-    let day1 = ToiletEntry(for: daysAgo(5)) // 2 дня подряд (начало)
-    let day2 = ToiletEntry(for: daysAgo(4)) // 2 дня подряд (конец)
-    let day3 = ToiletEntry(for: daysAgo(2)) // 1 день
-    let day4 = ToiletEntry(for: initDay)    // текущий день
-    
-    self.mockEntries = [day1, day2, day3, day4]
-  }
-  
+  // 7 дат для дней недели, со смещением относительно текущей
   func getWeek(offset: Int = 0) -> [Date] {
     let calendar = Calendar.current
     let today = calendar.startOfDay(for: initDay)
@@ -126,35 +151,28 @@ final class CalendarViewModel {
     }
   }
   
+  // Возвращает статус дня кортежем (лейбл, день)
   func getDay(offset: Int = 0) -> (String, Int) {
     let calendar = Calendar.current
-    
     guard let targetDay = calendar.date(byAdding: .day, value: offset, to: initDay) else { return ("", 0)}
     return logicEngine.calculateOrderNum(for: targetDay, entries: mockEntries)
   }
   
+  // TEST
   func addEntry() {
-    // TEST
     if !hasEntry(on: selectedDay) {
       mockEntries.append(ToiletEntry(for: selectedDay))
       mockEntries.sort { $0.timestamp < $1.timestamp }
     }
   }
   
+  // TEST
   func hasEntry(on date: Date) -> Bool {
-    // TEST
     mockEntries.contains(where: { $0.timestamp == date.startOfDay })
   }
   
+  // TEST
   func daysAgo(_ days: Int) -> Date {
-    // TEST
     return Calendar.current.date(byAdding: .day, value: -days, to: initDay) ?? Date()
-  }
-}
-
-// добавляет переменную, с началом текущего дня
-extension Date {
-  var startOfDay: Date {
-    Calendar.current.startOfDay(for: self)
   }
 }

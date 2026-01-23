@@ -10,16 +10,18 @@ import SwiftUI
 struct SelectDaysView: View {
   @Environment(CalendarViewModel.self) var calendarVM
   @Namespace private var animationNamespace
-  var selectedDayOrder: Int
+  var selectedWeekDayIndex: Int {
+    return calendarVM.selectedWeekDayIndex
+  }
   let points = Array(1..<8)
   
   var body: some View {
     HStack(spacing: 4) {
       ForEach(points, id: \.self) { index in
         // Selection indicator
-        if selectedDayOrder == index {
+        if selectedWeekDayIndex == index {
           Circle()
-            .fill(calendarVM.isPoopDay ? Color.white : Color.nopoopSelectedDay)
+            .fill(calendarVM.selectedDayIsPoop ? Color.white : Color.nopoopSelectedDay)
             .frame(width: 50, height: 50)
             .matchedGeometryEffect(id: "activeCircle", in: animationNamespace)
         } else {
@@ -29,11 +31,11 @@ struct SelectDaysView: View {
       }
     }
     .drawingGroup()
-    .animation(.easeInOut(duration: 0.3), value: selectedDayOrder)
+    .animation(.easeInOut(duration: 0.3), value: selectedWeekDayIndex)
   }
 }
 
 #Preview {
-  SelectDaysView(selectedDayOrder: 0)
+  SelectDaysView()
     .environment(CalendarViewModel())
 }

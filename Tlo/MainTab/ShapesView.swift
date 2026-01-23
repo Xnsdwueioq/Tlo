@@ -60,7 +60,7 @@ struct ShapesView: View {
               .fill(
                 shapesVM.mainEllipseGradient(if: false)
               )
-              .opacity(calendarVM.isPoopDay ? 0 : 1)
+              .opacity(calendarVM.selectedDayIsPoop ? 0 : 1)
           }
           .frame(width: 1600, height: 1200)
           .offset(x: 0, y:-600)
@@ -74,15 +74,14 @@ struct ShapesView: View {
               .mask(alignment: .center, {
                 shapesVM.addEllipseMaskGradient(if: true)
               })
-              .opacity(calendarVM.isPoopDay ? 1 : 0)
+              .opacity(calendarVM.selectedDayIsPoop ? 1 : 0)
             Ellipse()
               .fill(
                 shapesVM.addEllipseGradient(if: false)
               )
-              .opacity(calendarVM.isPoopDay ? 0 : 1)
+              .opacity(calendarVM.selectedDayIsPoop ? 0 : 1)
               .scaleEffect(1.016)
               .blur(radius: 4)
-
           }
           .frame(width: 530, height: 530)
           .offset(x: 120, y: -330)
@@ -95,11 +94,10 @@ struct ShapesView: View {
             case false: .easeInOut(duration: 5)
             }
           }
-          
         }
       })
-//      .drawingGroup()
-      .animation(.easeInOut(duration: 1.0), value: calendarVM.isPoopDay)
+      .animation(.easeInOut(duration: 1.0), value: calendarVM.selectedDayIsPoop)
+      .frame(height: 700)
   }
 }
 

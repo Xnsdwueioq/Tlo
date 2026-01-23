@@ -14,8 +14,8 @@ struct StatusButtonView: View {
     Button(action: {
       calendarVM.addEntry()
     }, label: {
-      Text(calendarVM.isPoopDay ? "Изменить даты каканья" : "Отметить каканье")
+      Text(calendarVM.selectedDayIsPoop ? "Изменить даты каканья" : "Отметить каканье")
     })
-    .buttonStyle(CapsuleButtonStyle(isPoopDay: calendarVM.isPoopDay))
+    .buttonStyle(CapsuleButtonStyle(isPoopDay: calendarVM.selectedDayIsPoop))
   }
 }

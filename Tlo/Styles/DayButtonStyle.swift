@@ -7,29 +7,14 @@
 
 import SwiftUI
 
-struct CapsuleButtonStyle: ButtonStyle {
-  var isPoopDay: Bool
-  
-  func makeBody(configuration: Configuration) -> some View {
-    configuration.label
-      .font(.footnote)
-      .fontWeight(.heavy)
-      .padding(8)
-      .padding(.horizontal, 10)
-      .background(isPoopDay ? Color.white : .accent)
-      .clipShape(Capsule())
-      .foregroundStyle(configuration.isPressed ? (isPoopDay ? Color.accent : .white).opacity(0.2) : (isPoopDay ? Color.accent : .white).opacity(1))
-      .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
-      .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
-  }
-}
-
 struct DayStyle: ButtonStyle {
-  private var hasEntry: Bool
+  private var isPoop: Bool
   private var isExpected: Bool
   private var foregroundColor: Color = .clear
-  @ViewBuilder private var backgroundShape: some View {
-    if hasEntry {
+  
+  @ViewBuilder
+  private var backgroundShape: some View {
+    if isPoop {
       Circle()
         .fill(Color.accent)
     } else if isExpected {
@@ -50,7 +35,7 @@ struct DayStyle: ButtonStyle {
   }
   
   init(hasEntry: Bool, isExpected: Bool = false) {
-    self.hasEntry = hasEntry
+    self.isPoop = hasEntry
     self.isExpected = hasEntry ? false : isExpected
     
     self.foregroundColor =

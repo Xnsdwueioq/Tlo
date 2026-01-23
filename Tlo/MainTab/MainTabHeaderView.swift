@@ -7,12 +7,13 @@
 
 import SwiftUI
 
-struct HeaderView: View {
+struct MainTabHeaderView: View {
   var selectedDay: Date
+  
   var body: some View {
     VStack {
       HStack {
-        // profile image
+        // Profile image
         Button(action: {
         }, label: {
           Image("Avatar")
@@ -22,12 +23,12 @@ struct HeaderView: View {
         })
         
         Spacer()
-        // selected day
+        // Selected day
         Text(selectedDay.smartFormatted)
           .animation(.none)
         Spacer()
         
-        // calendar
+        // Calendar
         Button(action: {
         }, label: {
           Image(systemName: "calendar")
@@ -41,20 +42,6 @@ struct HeaderView: View {
 }
 
 #Preview {
-  HeaderView(selectedDay: Date())
+  MainTabHeaderView(selectedDay: Date())
     .environment(\.locale, Locale(identifier: "ru_RU"))
-}
-
-extension Date {
-  var smartFormatted: String {
-    let calendar = Calendar.current
-    let currentYear = calendar.component(.year, from: Date())
-    let dateYear = calendar.component(.year, from: self)
-    
-    if currentYear == dateYear {
-      return self.formatted(.dateTime.day().month(.wide).locale(.current))
-    } else {
-      return self.formatted(.dateTime.day().month(.abbreviated).year().locale(.current))
-    }
-  }
 }
