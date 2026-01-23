@@ -16,6 +16,10 @@ struct ContentView: View {
     }
     .environment(calendarVM)
     .environment(router)
+    .fullScreenCover(isPresented: $router.showProfile, content: {
+      SettingsModalView()
+        .interactiveDismissDisabled(false)
+    })
   }
 }
 

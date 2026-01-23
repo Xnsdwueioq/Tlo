@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainTabHeaderView: View {
+  @Environment(NavigationRouter.self) private var router
   var selectedDay: Date
   
   var body: some View {
@@ -15,6 +16,7 @@ struct MainTabHeaderView: View {
       HStack {
         // Profile image
         Button(action: {
+          router.openProfile()
         }, label: {
           Image("Avatar")
             .resizable()
