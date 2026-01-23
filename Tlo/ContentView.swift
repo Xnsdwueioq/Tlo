@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+  @State private var router = NavigationRouter()
   @State private var calendarVM = CalendarViewModel()
   var body: some View {
-    MainTabView()
-      .environment(calendarVM)
+    TabView {
+      MainTabView()
+    }
+    .environment(calendarVM)
+    .environment(router)
   }
 }
 
