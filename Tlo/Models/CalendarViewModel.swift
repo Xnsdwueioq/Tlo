@@ -62,9 +62,8 @@ final class CalendarViewModel {
     let day1 = ToiletEntry(for: daysAgo(5)) // 2 дня подряд (начало)
     let day2 = ToiletEntry(for: daysAgo(4)) // 2 дня подряд (конец)
     let day3 = ToiletEntry(for: daysAgo(2)) // 1 день
-    let day4 = ToiletEntry(for: initDay)    // текущий день
     
-    self.mockEntries = [day1, day2, day3, day4]
+    self.mockEntries = [day1, day2, day3]
   }
   var mockEntries: [ToiletEntry] = []
   
@@ -135,6 +134,11 @@ final class CalendarViewModel {
     let weekDayAmerican = abs(calendar.component(.weekday, from: date))
     let weekDayUniversal = (weekDayAmerican - firstDay + 7) % 7 + 1
     return weekDayUniversal
+  }
+  
+  // Проверка, является ли день сегодняшним
+  func isInitDay(date: Date) -> Bool {
+    return date.startOfDay == initDay.startOfDay
   }
   
   // 7 дат для дней недели, со смещением относительно текущей

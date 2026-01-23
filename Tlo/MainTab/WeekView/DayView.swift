@@ -9,9 +9,6 @@ import SwiftUI
 struct DayView: View {
   @Environment(CalendarViewModel.self) var calendarVM
   var date: Date = Date()
-  var isSelected: Bool {
-    return date.startOfDay == calendarVM.selectedDay.startOfDay
-  }
   var hasEntry: Bool {
     return calendarVM.hasEntry(on: date)
   }
@@ -22,7 +19,7 @@ struct DayView: View {
         calendarVM.selectedDay = date.startOfDay
       }
     }
-    .fontWeight(isSelected && hasEntry ? .bold : .regular)
+    .fontWeight(calendarVM.isInitDay(date: date) ? .bold : .regular)
     .buttonStyle(DayStyle(hasEntry: hasEntry))
     .animation(.easeInOut, value: hasEntry)
   }
