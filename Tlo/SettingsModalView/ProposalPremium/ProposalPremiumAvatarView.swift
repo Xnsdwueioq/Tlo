@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ProposalPremiumAvatarsView: View {
+  @State private var isAnimated = false
+  
   private let avatars: [AvatarData] = [
     .init(animal: .cat, color: .purpleAvatar),
     .init(animal: .owl, color: .yellowAvatar),
@@ -25,9 +27,20 @@ struct ProposalPremiumAvatarsView: View {
         AnimalAvatarView(animal: avatar.animal, circleColor: avatar.color, withBacking: backgroundColor)
           .frame(width: avatarHeight)
           .zIndex(Double(avatars.count - index))
+          .scaleEffect(isAnimated ? 1 : 0.5)
+          .opacity(isAnimated ? 1 : 0)
+          .offset(y: isAnimated ? 0 : 20)
+          .animation(
+            .spring(response: 0.7, dampingFraction: 0.5)
+            .delay(Double(index) * 0.1),
+            value: isAnimated
+          )
       }
     }
     .frame(height: avatarHeight)
+    .onAppear {
+      isAnimated = true
+    }
   }
 }
 
