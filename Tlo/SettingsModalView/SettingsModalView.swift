@@ -13,8 +13,17 @@ struct SettingsModalView: View {
   var body: some View {
     ScrollView {
       HeaderTrackerView(headerOpacity: $headerOpacity)
+      ProfileCardView()
+        .padding(.horizontal, 15)
+        .shadow(radius: 2, y: 2)
+      List {
+        NavigationLink("Отчет для врача", destination: {
+          Text("Отчет для врача")
+        })
+      }
       
     }
+    .background(Color.mainNopoopBackground)
     .safeAreaInset(edge: .top, content: {
       HeaderView()
         .background(
@@ -22,7 +31,6 @@ struct SettingsModalView: View {
             .opacity(headerOpacity)
         )
     })
-    .padding(.horizontal, 10)
   }
 }
 
