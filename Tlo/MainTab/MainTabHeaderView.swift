@@ -44,6 +44,5 @@ struct MainTabHeaderView: View {
 }
 
 #Preview {
-  MainTabHeaderView(selectedDay: Date())
-    .environment(\.locale, Locale(identifier: "ru_RU"))
+  ContentView()
 }
