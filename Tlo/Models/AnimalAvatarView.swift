@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+struct AvatarData: Identifiable {
+  let id = UUID()
+  var animal: AnimalType = .cat
+  var color: Color = .accent
+  var isBacking: Color? = nil
+}
+
 enum AnimalType: String, CaseIterable {
   case cat
   case owl
@@ -20,7 +27,7 @@ enum AnimalType: String, CaseIterable {
     case .owl: return .owlAvatar
     case .badger: return .badgerAvatar
     case .racoon: return .racoonAvatar
-    case .cheetah: return .racoonAvatar
+    case .cheetah: return .сheetahAvatar
     }
   }
 }

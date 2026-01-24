@@ -13,15 +13,12 @@ struct SettingsModalView: View {
   var body: some View {
     ScrollView {
       HeaderTrackerView(headerOpacity: $headerOpacity)
-      ProfileCardView()
-        .padding(.horizontal, 15)
-        .shadow(radius: 2, y: 2)
-      List {
-        NavigationLink("Отчет для врача", destination: {
-          Text("Отчет для врача")
-        })
+      VStack(spacing: 15) {
+        ProposalPremiumView()
+        ProfileCardView()
+          .shadow(radius: 2, y: 2)
       }
-      
+      .padding(.horizontal, 15)
     }
     .background(Color.mainNopoopBackground)
     .safeAreaInset(edge: .top, content: {
