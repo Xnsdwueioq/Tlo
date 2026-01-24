@@ -28,19 +28,18 @@ enum AnimalType: String, CaseIterable {
 struct AnimalAvatarView: View {
   var animal: AnimalType = .cat
   var circleColor: Color = .accent
-  var withBacking: Bool = false
-  
+  var withBacking: Color? = nil
   var body: some View {
     ZStack {
       Circle()
-        .fill(.clear)
+        .fill(withBacking != nil ? withBacking! : .clear)
       Circle()
-        .scale(withBacking ? 0.9 : 1)
+        .scale(withBacking != nil ? 0.9 : 1)
         .foregroundStyle(circleColor)
       Image(animal.image)
         .resizable()
         .scaledToFit()
-        .scaleEffect(withBacking ? 0.9 : 1)
+        .scaleEffect(withBacking != nil ? 0.9 : 1)
     }
   }
 }
@@ -49,6 +48,6 @@ struct AnimalAvatarView: View {
   ZStack {
     Color.clear
       .background(Color.green.gradient)
-    AnimalAvatarView(animal: .cat, circleColor: .purple, withBacking: false)
+    AnimalAvatarView(animal: .cat, circleColor: .purple, withBacking: nil)
   }
 }
