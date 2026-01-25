@@ -20,6 +20,7 @@ struct ProfileCardView: View {
             Button(action: {} ){
               AvatarButtonLabelView()
             }
+            .buttonStyle(.plain)
             VStack(alignment: .leading, spacing: 10) {
               Text("Gugibird")
                 .fontWeight(.bold)
@@ -31,6 +32,7 @@ struct ProfileCardView: View {
                   .font(.caption)
                   .foregroundStyle(.darkGrayFont)
               }
+              .buttonStyle(.plain)
             }
             Spacer()
           }
