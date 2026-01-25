@@ -36,6 +36,8 @@ struct AnimalAvatarView: View {
   var animal: AnimalType = .cat
   var circleColor: Color = .accent
   var withBacking: Color? = nil
+  var animalOpacity: Double = 1
+  
   var body: some View {
     ZStack {
       Circle()
@@ -47,6 +49,7 @@ struct AnimalAvatarView: View {
         .resizable()
         .scaledToFit()
         .scaleEffect(withBacking != nil ? 0.9 : 1)
+        .opacity(animalOpacity)
     }
   }
 }
@@ -55,6 +58,6 @@ struct AnimalAvatarView: View {
   ZStack {
     Color.clear
       .background(Color.green.gradient)
-    AnimalAvatarView(animal: .cat, circleColor: .purple, withBacking: nil)
+    AnimalAvatarView(animal: .cat, circleColor: .purple, withBacking: .white, animalOpacity: 0.5)
   }
 }
