@@ -37,20 +37,32 @@ struct AnimalAvatarView: View {
   var circleColor: Color = .accent
   var withBacking: Color? = nil
   var animalOpacity: Double = 1
+  var innerPadding: Double = 7
   
   var body: some View {
     ZStack {
       Circle()
         .fill(withBacking != nil ? withBacking! : .clear)
       Circle()
-        .scale(withBacking != nil ? 0.9 : 1)
+        .padding(withBacking != nil ? innerPadding : 0)
         .foregroundStyle(circleColor)
       Image(animal.image)
         .resizable()
         .scaledToFit()
-        .scaleEffect(withBacking != nil ? 0.9 : 1)
+        .padding(withBacking != nil ? innerPadding : 0)
         .opacity(animalOpacity)
     }
+  }
+}
+
+extension AnimalAvatarView {
+  func addStroke(lineWidth: CGFloat = 2) -> some View {
+    self.overlay(
+      Circle()
+        .inset(by: lineWidth / 2)
+        .stroke(Color.accent, lineWidth: lineWidth)
+        
+    )
   }
 }
 
@@ -58,6 +70,13 @@ struct AnimalAvatarView: View {
   ZStack {
     Color.clear
       .background(Color.green.gradient)
-    AnimalAvatarView(animal: .cat, circleColor: .purple, withBacking: .white, animalOpacity: 0.5)
+    AnimalAvatarView(animal: .cat, circleColor: .bitterSweetAvatar, withBacking: .white, animalOpacity: 0.5).addStroke(lineWidth: 7)
   }
 }
+
+#Preview {
+  ColorPickerView(circleColor: .constant(.bitterSweetAvatar))
+}
+
+
+

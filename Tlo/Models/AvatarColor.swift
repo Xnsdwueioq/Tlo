@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-enum AvatarColor {
+enum AvatarColor: String, CaseIterable {
+  case accent
   case bitterSweet
   case blue
   case darkForest
@@ -25,6 +26,7 @@ enum AvatarColor {
   
   var color: Color {
     switch self {
+    case .accent:      return .accent
     case .bitterSweet: return .bitterSweetAvatar
     case .blue:        return .blueAvatar
     case .darkForest:  return .darkForestAvatar

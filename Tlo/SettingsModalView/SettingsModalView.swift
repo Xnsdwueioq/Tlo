@@ -26,7 +26,7 @@ struct SettingsModalView: View {
       }
       .navigationDestination(for: SettingsScreen.self, destination: { screen in
         SettingsDestinationView(screen: screen)
-          .navigationBarBackButtonHidden()
+          .navigationBarBackButtonHidden(true)
       })
       .background(Color.mainNopoopBackground)
       .safeAreaInset(edge: .top, content: {

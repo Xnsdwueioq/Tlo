@@ -24,7 +24,7 @@ struct ProposalPremiumAvatarsView: View {
   var body: some View {
     HStack(spacing: -overlap) {
       ForEach(avatars.enumerated(), id: \.element.id) { index, avatar in
-        AnimalAvatarView(animal: avatar.animal, circleColor: avatar.color, withBacking: backgroundColor)
+        AnimalAvatarView(animal: avatar.animal, circleColor: avatar.color, withBacking: backgroundColor, innerPadding: 3)
           .frame(width: avatarHeight)
           .zIndex(Double(avatars.count - index))
           .scaleEffect(isAnimated ? 1 : 0.5)
