@@ -16,9 +16,8 @@ struct ProposalPremiumView: View {
       Text("Пригласите родных и друзей пользоваться вашим планом вместе")
         .foregroundStyle(.secondary)
         .multilineTextAlignment(.center)
-      Button("Подключить тариф «Tlo для семьи»") {
+      StandardCapsuleButton("Подключить тариф «Tlo для семьи»") {
       }
-      .buttonStyle(CapsuleButtonStyle())
     }
     .frame(maxWidth: .infinity)
     .padding(.vertical, 15)

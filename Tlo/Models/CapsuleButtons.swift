@@ -33,7 +33,27 @@ struct SelectCapsuleButton: View {
   }
 }
 
+struct StandardCapsuleButton: View {
+  let title: String
+  var isActive: Bool
+  let action: () -> Void
+  
+  init(_ title: String, isActive: Bool = true, action: @escaping () -> Void) {
+    self.title = title
+    self.isActive = isActive
+    self.action = action
+  }
+  
+  var body: some View {
+    Button(title, action: action)
+      .buttonStyle(CapsuleButtonStyle(isActive: isActive))
+  }
+}
+
 #Preview {
+  StandardCapsuleButton("Some text", isActive: false, action: {
+    
+  })
   SelectCapsuleButton {
   }
   .environment(CalendarViewModel())

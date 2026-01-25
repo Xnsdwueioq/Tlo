@@ -24,14 +24,14 @@ struct CapsuleButtonStyle: ButtonStyle {
   }
   init(isActive: Bool) {
     self.isPoopDay = false
-    self.isBold = !isActive
+    self.isBold = false
     self.isActive = isActive
   }
 
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
       .font(.footnote)
-      .fontWeight(isBold ? .heavy : .semibold)
+      .fontWeight(isBold ? .bold : .semibold)
       .padding(8)
       .padding(.horizontal, 10)
       .background(getBackgroundColor())

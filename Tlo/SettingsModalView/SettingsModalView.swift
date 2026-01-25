@@ -16,13 +16,9 @@ struct SettingsModalView: View {
       VStack(spacing: 15) {
         ProposalPremiumView()
         ProfileCardView()
-        ScrollView(.horizontal, content: {
-          Button("Следить за стулом") {
-          }
-          
-        })
       }
       .padding(.horizontal, 15)
+      UserGoalView()
     }
     .background(Color.mainNopoopBackground)
     .safeAreaInset(edge: .top, content: {

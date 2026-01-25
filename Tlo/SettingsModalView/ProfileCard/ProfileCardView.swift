@@ -30,9 +30,8 @@ struct ProfileCardView: View {
             }
             Spacer()
           }
-          Button("Подключить премиум-аккаунт") {
+          StandardCapsuleButton("Подключить премиум-аккаунт") {
           }
-            .buttonStyle(CapsuleButtonStyle())
         }
       }
       .padding(.vertical, 40)
