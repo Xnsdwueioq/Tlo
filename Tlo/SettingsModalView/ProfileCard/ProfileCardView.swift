@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct ProfileCardView: View {
+  @Environment(NavigationRouter.self) private var router
+  private var settingsRouter: SettingsRouter {
+    router.settingsRouter
+  }
+  
   var body: some View {
     Group {
       ZStack {
@@ -17,7 +22,9 @@ struct ProfileCardView: View {
           .offset(x: 100)
         VStack(spacing: 50) {
           HStack(spacing: 15) {
-            Button(action: {} ){
+            Button(action: {
+              settingsRouter.push(.avatarPicker)
+            }) {
               AvatarButtonLabelView()
             }
             .buttonStyle(.plain)
@@ -25,7 +32,7 @@ struct ProfileCardView: View {
               Text("Gugibird")
                 .fontWeight(.bold)
               Button(action: {
-                
+                settingsRouter.push(.profileChanger)
               }) {
                 Text("Изменить данные")
                   .fontWeight(.bold)
@@ -53,4 +60,5 @@ struct ProfileCardView: View {
 
 #Preview {
   ProfileCardView()
+    .environment(NavigationRouter())
 }
