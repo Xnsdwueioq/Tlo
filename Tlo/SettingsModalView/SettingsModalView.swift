@@ -16,7 +16,6 @@ struct SettingsModalView: View {
       VStack(spacing: 15) {
         ProposalPremiumView()
         ProfileCardView()
-          .shadow(radius: 2, y: 2)
       }
       .padding(.horizontal, 15)
     }
