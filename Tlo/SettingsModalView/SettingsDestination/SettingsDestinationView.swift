@@ -20,4 +20,6 @@ struct SettingsDestinationView: View {
 
 #Preview {
   SettingsDestinationView(screen: .avatarPicker)
+    .environment(NavigationRouter())
+    .environment(UserSession())
 }

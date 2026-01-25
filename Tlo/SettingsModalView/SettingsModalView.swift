@@ -26,14 +26,11 @@ struct SettingsModalView: View {
       }
       .navigationDestination(for: SettingsScreen.self, destination: { screen in
         SettingsDestinationView(screen: screen)
+          .navigationBarBackButtonHidden()
       })
       .background(Color.mainNopoopBackground)
       .safeAreaInset(edge: .top, content: {
         HeaderView()
-          .background(
-            .ultraThinMaterial
-              .opacity(headerOpacity)
-          )
       })
     }
   }
