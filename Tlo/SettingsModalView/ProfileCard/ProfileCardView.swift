@@ -23,10 +23,14 @@ struct ProfileCardView: View {
             VStack(alignment: .leading, spacing: 10) {
               Text("Gugibird")
                 .fontWeight(.bold)
-              Text("Изменить данные")
-                .fontWeight(.bold)
-                .font(.caption)
-                .foregroundStyle(.darkGrayFont)
+              Button(action: {
+                
+              }) {
+                Text("Изменить данные")
+                  .fontWeight(.bold)
+                  .font(.caption)
+                  .foregroundStyle(.darkGrayFont)
+              }
             }
             Spacer()
           }

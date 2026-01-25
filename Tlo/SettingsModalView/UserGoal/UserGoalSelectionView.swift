@@ -24,14 +24,14 @@ enum UserGoal: String, CaseIterable, Identifiable {
 }
 
 struct UserGoalSelectionView: View {
-  @State private var userGoal: UserGoal = .track
+  @Environment(UserSession.self) private var userSession
 
   var body: some View {
     ScrollView(.horizontal, content: {
       HStack(spacing: 15) {
         ForEach(UserGoal.allCases) { goal in
-          StandardCapsuleButton(goal.title, isActive: userGoal == goal) {
-            userGoal = goal
+          StandardCapsuleButton(goal.title, isActive: userSession.userGoal == goal) {
+            userSession.userGoal = goal
           }
         }
       }
@@ -43,4 +43,5 @@ struct UserGoalSelectionView: View {
 
 #Preview {
   UserGoalSelectionView()
+    .environment(UserSession())
 }
