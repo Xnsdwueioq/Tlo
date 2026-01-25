@@ -14,8 +14,10 @@ struct ProposalPremiumView: View {
       Text("Дарите Tlo Premium")
         .font(.headline)
       Text("Пригласите родных и друзей пользоваться вашим планом вместе")
+        .font(.subheadline)
         .foregroundStyle(.secondary)
         .multilineTextAlignment(.center)
+        .padding(.horizontal, 40)
       StandardCapsuleButton("Подключить тариф «Tlo для семьи»") {
       }
     }
@@ -27,5 +29,5 @@ struct ProposalPremiumView: View {
 }
 
 #Preview {
-  SettingsModalView()
+  ProposalPremiumView()
 }
