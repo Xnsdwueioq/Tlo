@@ -33,7 +33,7 @@ struct AvatarPickerView: View {
           .padding(.vertical, 10)
         ColorPickerView(circleColor: $circleColor)
         Divider()
-        Text("Animal Picker...")
+        AnimalPickerView(animal: $animal)
       }
       Color.clear
     }

@@ -18,9 +18,7 @@ struct AnimalPickerView: View {
           .addStroke(lineWidth: animal == self.animal ? 2 : 0)
           .frame(width: avatarSize, height: avatarSize)
           .onTapGesture {
-            withAnimation(.easeInOut(duration: 0.3)) {
               self.animal = animal
-            }
           }
       }
     }
@@ -31,4 +29,10 @@ struct AnimalPickerView: View {
 #Preview {
   @Previewable @State var userSession = UserSession()
   AnimalPickerView(animal: $userSession.selectedAvatar.animal)
+}
+
+#Preview {
+  SettingsDestinationView(screen: .avatarPicker)
+    .environment(NavigationRouter())
+    .environment(UserSession())
 }
