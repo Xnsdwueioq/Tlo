@@ -9,20 +9,29 @@ import SwiftUI
 
 struct AnimalPickerView: View {
   @Binding var animal: AnimalType
-  private let avatarSize: CGFloat = 80
+  private let avatarSize: CGFloat = 90
+  var columns: [GridItem] = [
+    GridItem(),
+    GridItem(),
+    GridItem(),
+    GridItem()
+  ]
   
   var body: some View {
-    HStack(spacing: 5) {
-      ForEach(AnimalType.allCases, id:\.self) { animal in
-        AnimalAvatarView(animal: animal, circleColor: .mainNopoopBackground.mix(with: .gray, by: 0.2), withBacking: .white)
-          .addStroke(lineWidth: animal == self.animal ? 2 : 0)
-          .frame(width: avatarSize, height: avatarSize)
-          .onTapGesture {
+    ScrollView {
+      LazyVGrid(columns: columns) {
+        ForEach(AnimalType.allCases, id:\.self) { animal in
+          AnimalAvatarView(animal: animal, circleColor: .mainNopoopBackground.mix(with: .gray, by: 0.2), withBacking: .white)
+            .addStroke(lineWidth: animal == self.animal ? 2 : 0)
+            .frame(width: avatarSize, height: avatarSize)
+            .onTapGesture {
               self.animal = animal
-          }
+            }
+        }
       }
+      .padding(15)
     }
-    .padding(15)
+    .frame(maxHeight: .infinity)
   }
 }
 

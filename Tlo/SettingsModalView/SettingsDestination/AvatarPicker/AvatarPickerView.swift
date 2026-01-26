@@ -7,20 +7,46 @@
 
 import SwiftUI
 
+@Observable
+class AvatarPickerViewModel {
+  var userSession: UserSession
+  
+  var animal: AnimalType
+  var circleColor: Color
+  
+  init(userSession: UserSession, animal: AnimalType, circleColor: Color) {
+    self.userSession = userSession
+    let selectedAvatar = userSession.selectedAvatar
+    
+    self.animal = selectedAvatar.animal
+    self.circleColor = selectedAvatar.color
+  }
+  
+  func saveAvatar() {
+    var updatedAvatar = userSession.selectedAvatar
+    updatedAvatar.animal = animal
+    updatedAvatar.color = circleColor
+    
+    userSession.selectedAvatar = updatedAvatar
+  }
+}
+
 struct AvatarPickerView: View {
   @Environment(UserSession.self) private var userSession
   @State private var animal: AnimalType = .cat
   @State private var circleColor: Color = .accent
   private var withBacking: Color? = .white
+  private let avatarSize: CGFloat = 200
   
   var body: some View {
-    Group {
+    VStack(spacing: 0) {
       // HEADER
       ZStack {
         SettingsDestinationHeaderView(title: "Создайте аватар")
         HStack {
           Spacer()
           Button("Сохранить") {
+            
           }
           .bold()
         }
@@ -29,13 +55,16 @@ struct AvatarPickerView: View {
       
       VStack(spacing: 15) {
         AnimalAvatarView(animal: animal, circleColor: circleColor, withBacking: withBacking)
-          .frame(width: 200)
+          .scaledToFit()
+          .aspectRatio(contentMode: .fit)
+          .frame(width: avatarSize, height: avatarSize)
           .padding(.vertical, 10)
         ColorPickerView(circleColor: $circleColor)
-        Divider()
-        AnimalPickerView(animal: $animal)
+        VStack(spacing: 0) {
+          Divider()
+          AnimalPickerView(animal: $animal)
+        }
       }
-      Color.clear
     }
     .onAppear {
       let currentAvatar = userSession.selectedAvatar
