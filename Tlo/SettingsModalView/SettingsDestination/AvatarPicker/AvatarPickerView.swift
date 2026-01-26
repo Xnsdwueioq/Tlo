@@ -14,7 +14,10 @@ class AvatarPickerViewModel {
   var animal: AnimalType
   var circleColor: Color
   
-  init(userSession: UserSession, animal: AnimalType, circleColor: Color) {
+  let avatarBacking: Color? = .white
+  let avatarSize: CGFloat = 200
+  
+  init(userSession: UserSession) {
     self.userSession = userSession
     let selectedAvatar = userSession.selectedAvatar
     
@@ -32,11 +35,8 @@ class AvatarPickerViewModel {
 }
 
 struct AvatarPickerView: View {
-  @Environment(UserSession.self) private var userSession
-  @State private var animal: AnimalType = .cat
-  @State private var circleColor: Color = .accent
-  private var withBacking: Color? = .white
-  private let avatarSize: CGFloat = 200
+  @Environment(NavigationRouter.self) private var router
+  @Bindable var viewModel: AvatarPickerViewModel
   
   var body: some View {
     VStack(spacing: 0) {
@@ -46,7 +46,8 @@ struct AvatarPickerView: View {
         HStack {
           Spacer()
           Button("Сохранить") {
-            
+            viewModel.saveAvatar()
+            router.settingsRouter.removeLast()
           }
           .bold()
         }
@@ -54,22 +55,17 @@ struct AvatarPickerView: View {
       }
       
       VStack(spacing: 15) {
-        AnimalAvatarView(animal: animal, circleColor: circleColor, withBacking: withBacking)
+        AnimalAvatarView(animal: viewModel.animal, circleColor: viewModel.circleColor, withBacking: viewModel.avatarBacking)
           .scaledToFit()
           .aspectRatio(contentMode: .fit)
-          .frame(width: avatarSize, height: avatarSize)
+          .frame(width: viewModel.avatarSize, height: viewModel.avatarSize)
           .padding(.vertical, 10)
-        ColorPickerView(circleColor: $circleColor)
+        ColorPickerView(circleColor: $viewModel.circleColor)
         VStack(spacing: 0) {
           Divider()
-          AnimalPickerView(animal: $animal)
+          AnimalPickerView(animal: $viewModel.animal)
         }
       }
-    }
-    .onAppear {
-      let currentAvatar = userSession.selectedAvatar
-      animal = currentAvatar.animal
-      circleColor = currentAvatar.color
     }
   }
 }
