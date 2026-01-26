@@ -39,6 +39,21 @@ struct AnimalAvatarView: View {
   var animalOpacity: Double = 1
   var innerPadding: Double = 7
   
+  init(animal: AnimalType = .cat, circleColor: Color = .accent, withBacking: Color? = nil, animalOpacity: Double = 1, innerPadding: Double = 7) {
+    self.animal = animal
+    self.circleColor = circleColor
+    self.withBacking = withBacking
+    self.animalOpacity = animalOpacity
+    self.innerPadding = innerPadding
+  }
+  
+  init(avatarData: AvatarData) {
+    self.animal = avatarData.animal
+    self.circleColor = avatarData.color
+  }
+  
+  
+  
   var body: some View {
     ZStack {
       Circle()

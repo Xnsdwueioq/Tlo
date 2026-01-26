@@ -9,7 +9,6 @@ import SwiftUI
 
 enum SettingsScreen: Hashable {
   case avatarPicker
-  case profileChanger
 }
 
 @Observable

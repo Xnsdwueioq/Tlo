@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct AvatarButtonLabelView: View {
+  @Environment(UserSession.self) private var userSession
   var body: some View {
     ZStack {
-      Image(.avatar)
-        .resizable()
+      AnimalAvatarView(avatarData: userSession.selectedAvatar)
         .frame(width: 70, height: 70)
       ZStack {
         Circle()
@@ -30,4 +30,5 @@ struct AvatarButtonLabelView: View {
 
 #Preview {
   AvatarButtonLabelView()
+    .environment(UserSession())
 }

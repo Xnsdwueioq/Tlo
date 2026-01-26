@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainTabHeaderView: View {
+  @Environment(UserSession.self) private var userSession
   @Environment(NavigationRouter.self) private var router
   var selectedDay: Date
   
@@ -18,8 +19,7 @@ struct MainTabHeaderView: View {
         Button(action: {
           router.openProfile()
         }, label: {
-          Image("Avatar")
-            .resizable()
+          AnimalAvatarView(avatarData: userSession.selectedAvatar)
             .scaledToFit()
             .frame(width: 30, height: 30)
         })
